@@ -1,28 +1,41 @@
-// Importa React e funções auxiliares para criar contexto e gerenciar estado
 import React, { 
-    createContext, // Permite criar um novo contexto
-    useState      // Hook para gerenciar estado local
+    createContext,
+    useState
 } from "react";
+import api from '../services/api';
+import { useNavigation } from "@react-navigation/native";
 
-// Cria o contexto de autenticação, que será usado para compartilhar dados entre componentes
 export const AuthContext = createContext({});
 
-// Define o componente provedor do contexto de autenticação
 function AuthProvider({ children }) {
+    const navigation = useNavigation();
 
-    // Cria um estado local 'user' com valor inicial, e função para atualizá-lo
-    const [user, setUser] = useState({
-        nome: 'André'
-    })
-    // Retorna o provedor do contexto, passando o valor do usuário para os componentes filhos
+    const [user, setUser] = useState(null)
+    const [loadingAuth, setLoadingAuth] = useState(false);
+
+    async function signUp(email, password, nome) {
+        try {
+            setLoadingAuth(true)
+            const response = await api.post('/users', {
+                name: nome,
+                password: password,
+                email: email,
+            })
+            setLoadingAuth(false);
+            navigation.goBack();
+        } catch (error) {
+            console.log('ERRO AO CADASTRAR: ', error);
+            setLoadingAuth(false);
+        }
+    }
+
     return (
         <AuthContext.Provider   
-            value={{ user }} // O valor do contexto, acessível por outros componentes
+            value={{ user, signUp, loadingAuth }} // O valor do contexto, acessível por outros componentes
         >
             {children} // Renderiza os componentes filhos dentro do provedor
         </AuthContext.Provider>
     )
 }
 
-// Exporta o provedor para ser usado na árvore de componentes da aplicação
 export default AuthProvider;

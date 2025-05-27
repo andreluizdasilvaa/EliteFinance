@@ -1,5 +1,5 @@
-import React, { useContext } from "react";
-import { View, Text} from 'react-native'
+import React, { useContext, useState, useEffect } from "react";
+import { View, Text, ActivityIndicatorBase, ActivityIndicator } from 'react-native'
 
 import {
     Background, 
@@ -15,11 +15,17 @@ import { AuthContext } from '../../contexts/auth'
 
 export default function SignUp() {
 
-    const { user } = useContext(AuthContext);
+    const { signUp, loadingAuth } = useContext(AuthContext);
+    const [nome, setNome] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
 
     function handleSignUp() {
-        console.log(user);
-        alert(user.nome);
+        if(!nome || !email || !password) {
+            alert('Dados invalidos')
+            return;
+        }
+        signUp(email, password, nome);
     }
 
     return (
@@ -32,23 +38,37 @@ export default function SignUp() {
                 <AreaInput>
                     <Input 
                         placeholder="Nome"
+                        value={nome}
+                        onChangeText={(e) => setNome(e)}
                     />
                 </AreaInput>
 
                 <AreaInput>
                     <Input 
                         placeholder="Email"
+                        value={email}
+                        onChangeText={(e) => setEmail(e)}
                     />
                 </AreaInput>
 
                 <AreaInput>
                     <Input 
                         placeholder="Senha"
+                        value={password}
+                        onChangeText={(e) => setPassword(e)}
+                        secureTextEntry={true}
                     />
                 </AreaInput>
 
                 <SubmitButton onPress={handleSignUp}>
-                    <SubmitText>Cadastrar</SubmitText>
+                    {
+                        loadingAuth ? (
+                            <ActivityIndicator size={20} color={"#fff"}/>
+                        ) : (
+                           <SubmitText>Cadastrar</SubmitText> 
+                        )
+                    }
+                    
                 </SubmitButton>
 
             </Container>
