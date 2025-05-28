@@ -1,7 +1,9 @@
 import React from "react";
 import { createDrawerNavigator } from "@react-navigation/drawer";
+import { Dimensions } from "react-native";
 
 import Home from "../pages/home";
+import New from '../pages/New';
 
 const AppDrawer = createDrawerNavigator();
 
@@ -14,6 +16,12 @@ function AppRoutes() {
                 drawerStyle: {
                     backgroundColor: '#fff',
                     paddingTop: 20,
+                    width: Dimensions.get('window').width * 0.65, // 60% da largura
+                },
+
+                drawerItemStyle: {
+                    borderRadius: 12,
+                    marginBottom: 8, 
                 },
                 
                 drawerActiveBackgroundColor: '#3b3dbf',
@@ -27,6 +35,12 @@ function AppRoutes() {
                 name="Home"
                 component={Home}
             />
+
+            <AppDrawer.Screen 
+                name="Registrar"
+                component={New}
+            />
+
         </AppDrawer.Navigator>
     )
 }
