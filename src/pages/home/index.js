@@ -49,7 +49,6 @@ export default function Home() {
                 setMovements(receives.data);
             }
 
-
         }
 
         getMovements()
@@ -82,6 +81,7 @@ export default function Home() {
                 showsHorizontalScrollIndicator={true}
                 keyExtractor={ item => item.tag } 
                 renderItem={({ item }) => (<BalanceItem data={item} />)}
+                showsVerticalScrollIndicator={false}
             />
 
             <Area>

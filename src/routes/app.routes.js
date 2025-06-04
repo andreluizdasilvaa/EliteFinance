@@ -4,6 +4,7 @@ import { Dimensions } from "react-native";
 
 import Home from "../pages/home";
 import New from '../pages/New';
+import Profile from "../pages/Profile";
 
 const AppDrawer = createDrawerNavigator();
 
@@ -39,6 +40,11 @@ function AppRoutes() {
             <AppDrawer.Screen 
                 name="Registrar"
                 component={New}
+            />
+
+            <AppDrawer.Screen 
+                name="Perfil"
+                component={Profile}
             />
 
         </AppDrawer.Navigator>
