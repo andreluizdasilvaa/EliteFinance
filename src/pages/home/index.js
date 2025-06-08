@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { TouchableOpacity } from "react-native";
+import { Modal, TouchableOpacity } from "react-native";
 import { useIsFocused } from "@react-navigation/native";
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 
@@ -9,6 +9,7 @@ import { format } from 'date-fns'
 import Header from "../../components/Header/index";
 import BalanceItem from "../../components/BalanceItem";
 import HistoryList from "../../components/HistoryList";
+import CalendarModal from "../../components/CalendarModal";
 import { 
     Background,
     ListBalance,
@@ -24,6 +25,7 @@ export default function Home() {
     const [listBalance, setListBalance] = useState([]);
     const [dateMoments, setDateMoments] = useState(new Date());
     const [movements, setMovements] = useState([]);
+    const [modalVisible, setModalVisible] = useState(false);
 
     useEffect(() => {
         // quando o componente e montado ele define essa variavel como true.
@@ -71,6 +73,11 @@ export default function Home() {
         }
     }
 
+    function filterDateMovements(dateSelected) {
+        // console.log(dateSelected)
+        setDateMoments(dateSelected)
+    }
+
     return (
         <Background>
             <Header title="Minhas movimentações" />
@@ -85,7 +92,7 @@ export default function Home() {
             />
 
             <Area>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={ () => setModalVisible(true) }>
                     <MaterialIcons name="event" size={30} color="black" />
                 </TouchableOpacity>
                 <Title>Ultimas movimentações</Title>
@@ -97,6 +104,13 @@ export default function Home() {
                 renderItem={ ({ item }) => <HistoryList data={item} deleteItem={handleDelete} /> }
                 showsVerticalScrollIndicator={false}
             />
+
+            <Modal visible={modalVisible} animationType="fade" transparent={true}>
+                <CalendarModal 
+                    setVisible={ () => setModalVisible(false) }
+                    handleFilter={filterDateMovements}
+                />
+            </Modal>
         </Background>
     )
 }
