@@ -54,7 +54,6 @@ function AuthProvider({ children }) {
             setLoadingAuth(false);
             navigation.goBack();
         } catch (error) {
-            console.log('ERRO AO CADASTRAR: ', error);
             setLoadingAuth(false);
         }
     }
@@ -66,7 +65,6 @@ function AuthProvider({ children }) {
                 email: email,
                 password: password,
             })
-            console.log(response.data);
             const { id, name, token } = response.data;
 
             const data = {
@@ -87,7 +85,6 @@ function AuthProvider({ children }) {
             });
             setLoadingAuth(false);
         } catch (error) {
-            console.log('ERRO AO CADASTRAR: ', error);
             setLoadingAuth(false);
         }
     }

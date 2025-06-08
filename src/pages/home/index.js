@@ -32,7 +32,9 @@ export default function Home() {
         let isActive = true;
 
         async function getMovements() {
-            let dateFormated = format(dateMoments, 'dd/MM/yyyy');
+            let date = new Date(dateMoments);
+            let onlyDate = date.valueOf() + date.getTimezoneOffset() * 60 * 1000;
+            let dateFormated = format(onlyDate, 'dd/MM/yyyy');
 
             const receives = await api.get('/receives', {
                 params: {
@@ -69,12 +71,11 @@ export default function Home() {
 
             setDateMoments(new Date())
         } catch (error) {
-            console.log(error);
+            // console.log(error);
         }
     }
 
     function filterDateMovements(dateSelected) {
-        // console.log(dateSelected)
         setDateMoments(dateSelected)
     }
 
